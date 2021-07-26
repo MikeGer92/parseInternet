@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Сбор данных и информации в интернете.iml" filepath="$PROJECT_DIR$/.idea/Сбор данных и информации в интернете.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/parseInternet.iml" filepath="$PROJECT_DIR$/.idea/parseInternet.iml" />
     </modules>
   </component>
 </project>

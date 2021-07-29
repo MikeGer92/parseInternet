@@ -22,8 +22,7 @@ def get_parse_hh(par, head, adr):
     for el in vacancy_list:
         vacancy_dic = {}
         vacancy_name = el.find('span', attrs={'class': 'bloko-header-section-3 bloko-header-section-3_lite'}).text
-        vacancy_salary_tag = el.find('div', attrs={'class': 'vacancy-serp-item__sidebar'})
-        # vacancy_salary = vacancy_salary_tag.find('span', attrs={'class': 'bloko-header-section-3 bloko-header-section-3_lite'}).getText()
+        vacancy_salary_tag = el.find('span', attrs={'data-qa': 'vacancy-serp__vacancy-compensation'})
         vacancy_dic['name'] = vacancy_name
         vacancy_dic['salary'] = vacancy_salary_tag
         main_list.append(vacancy_dic)

@@ -30,7 +30,7 @@ def get_parse_hh(par, head, adr):
             elif 'до' in vacancy_salary_tag:
                 vacancy_dic['макс. З/П'] = (f"{vacancy_salary_tag[1]} {vacancy_salary_tag[2]}")
             else:
-                vacancy_dic['З/П'] = (f" от{vacancy_salary_tag[0]} до {vacancy_salary_tag[2]} {vacancy_salary_tag[3]}")
+                vacancy_dic['З/П'] = (f"от {vacancy_salary_tag[0]} до {vacancy_salary_tag[2]} {vacancy_salary_tag[3]}")
         else:
             vacancy_dic['З/П'] = (f"не указана")
 
@@ -43,14 +43,25 @@ def get_parse_hh(par, head, adr):
 def full_parse_hh(*args, **kwargs):
     l_p_n = get_last_page_hh(*args, **kwargs)
     print(f'Найдено {l_p_n} страниц с вакансиями:')
-    for i in range(l_p_n):
-        print(f'Страница {i + 1}:')
-        params_hh['page'] = i
-        get_parse_hh(*args, **kwargs)
+    user_l_p_n = input(f'Введите необходимое количество страниц для сбора данных(по умолчанию {l_p_n}):_')
+    try:
+        user_l_p_n = int(user_l_p_n)
+    except ValueError:
+        print(f'Вы ввели некорректное число страниц, будут обработаны все найденные страницы')
+        user_l_p_n = l_p_n
+    finally:
+        if 0 < user_l_p_n <= l_p_n:
+            l_p_n = user_l_p_n
+        else:
+            print(f'Вы ввели некорректное число страниц, будут обработаны все найденные страницы')
+        for i in range(l_p_n):
+            print(f'Страница {i + 1}:')
+            params_hh['page'] = i
+            get_parse_hh(*args, **kwargs)
 
 
 # get_parse_hh(params_hh, headers, url_hh) - для тестового парсинга первой страницы
-get_last_page_hh(params_hh, headers, url_hh) #- для печати количества найденных страниц с вакансией
+# get_last_page_hh(params_hh, headers, url_hh) #- для печати количества найденных страниц с вакансией
 full_parse_hh(params_hh, headers, url_hh)
 
 

@@ -26,11 +26,11 @@ def get_parse_hh(par, head, adr):
         if vacancy_salary_tag:
             vacancy_salary_tag = vacancy_salary_tag.getText().replace('\u202f', '').split(' ')
             if 'от' in vacancy_salary_tag:
-                vacancy_dic['мин. З/П'] = (f"{vacancy_salary_tag[1]} {vacancy_salary_tag[2]}")
+                vacancy_dic['мин. З/П'] = (f"{int(vacancy_salary_tag[1])} {vacancy_salary_tag[2]}")
             elif 'до' in vacancy_salary_tag:
-                vacancy_dic['макс. З/П'] = (f"{vacancy_salary_tag[1]} {vacancy_salary_tag[2]}")
+                vacancy_dic['макс. З/П'] = (f"{int(vacancy_salary_tag[1])} {vacancy_salary_tag[2]}")
             else:
-                vacancy_dic['З/П'] = (f"от {vacancy_salary_tag[0]} до {vacancy_salary_tag[2]} {vacancy_salary_tag[3]}")
+                vacancy_dic['З/П'] = (f"от {int(vacancy_salary_tag[0])} до {int(vacancy_salary_tag[2])} {vacancy_salary_tag[3]}")
         else:
             vacancy_dic['З/П'] = (f"не указана")
 

@@ -34,7 +34,7 @@ def get_parse_hh(par, head, adr):
         else:
             vacancy_dic['salary'] = None
 
-        vacancy_dic['Вакансия'] = vacancy_name
+        vacancy_dic['Vacancy'] = vacancy_name
         main_list.append(vacancy_dic)
     pprint(main_list)
 

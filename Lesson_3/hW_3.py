@@ -51,7 +51,7 @@ def get_parse_hh(par, head, adr):
             if 'от' in vacancy_salary_tag:
                 vacancy_dic['salary'] = [{'min': int(vacancy_salary_tag[1])}, {'max': None}, vacancy_salary_tag[2]]
             elif 'до' in vacancy_salary_tag:
-                vacancy_dic['salary_max'] = [{'min': None}, {'max': int(vacancy_salary_tag[1])}, vacancy_salary_tag[2]]
+                vacancy_dic['salary'] = [{'min': None}, {'max': int(vacancy_salary_tag[1])}, vacancy_salary_tag[2]]
             else:
                 vacancy_dic['salary'] = [{'min': int(vacancy_salary_tag[0])}, {'max': int(vacancy_salary_tag[2])},
                                          vacancy_salary_tag[3]]

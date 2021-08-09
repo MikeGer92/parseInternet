@@ -1,11 +1,33 @@
 from bs4 import BeautifulSoup as bs
 import requests
+from pymongo import MongoClient
 from pprint import pprint
+
+client = MongoClient('127.0.0.1', 27017)
+# db = client['users020821']
+# persons = db.persons
+# persons.insert_one({
+#     'name': 'Mike',
+#     'age': 46,
+#     'status': 'married',
+#     'children': [{'son': 'Vit'}, {'son': 'Dim'}],
+#     'create': '02.08.2021'
+# })
+# for doc in persons.find({}):
+#     pprint(doc)
+db_vacancy = client['userHH']
+vacancy010821 = db_vacancy.vacancy010821
+# vacancy = {'Вакансия': 'Junior DevOps', 'З/П': ['50000', '–', '90000', 'руб.']}
+# vacancy020821.insert_one(
+
+
+
 
 url_hh = 'https://www.hh.ru'
 params_hh = {'area': '', 'fromSearchLine': 'true', 'st': 'searchVacancy', 'text': 'Python junior', 'form': 'suggest_post', 'page': '0'}
 headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36 Edg/92.0.902.55'}
 main_list = []
+
 
 def get_last_page_hh(par, head, adr):
     response = requests.get(adr+'/search/vacancy', params=par, headers=head)
@@ -22,6 +44,7 @@ def get_parse_hh(par, head, adr):
     for el in vacancy_list:
         vacancy_dic = {}
         vacancy_name = el.find('span', attrs={'class': 'bloko-header-section-3 bloko-header-section-3_lite'}).text
+        vacancy_dic['Вакансия'] = vacancy_name
         vacancy_salary_tag = el.find('span', attrs={'data-qa': 'vacancy-serp__vacancy-compensation'})
         if vacancy_salary_tag:
             vacancy_salary_tag = vacancy_salary_tag.getText().replace('\u202f', '').split(' ')
@@ -30,13 +53,20 @@ def get_parse_hh(par, head, adr):
             elif 'до' in vacancy_salary_tag:
                 vacancy_dic['salary'] = [{'min': None}, {'max': int(vacancy_salary_tag[1])}, vacancy_salary_tag[2]]
             else:
-                vacancy_dic['salary'] = [{'min':int(vacancy_salary_tag[0])}, {'max':int(vacancy_salary_tag[2])}, vacancy_salary_tag[3]]
+                vacancy_dic['salary'] = [{'min': int(vacancy_salary_tag[0])}, {'max': int(vacancy_salary_tag[2])},
+                                         vacancy_salary_tag[3]]
         else:
             vacancy_dic['salary'] = None
-
-        vacancy_dic['Vacancy'] = vacancy_name
+        vacancy010821.insert_one(vacancy_dic)
+        # if 'от' in vacancy_salary_tag:
+        #     vacancy_dic['мин.З/П'] = (f"{int(vacancy_salary_tag[1])} {vacancy_salary_tag[2]}")
+        # elif 'до' in vacancy_salary_tag:
+        #     vacancy_dic['макс.З/П'] = (f"{int(vacancy_salary_tag[1])} {vacancy_salary_tag[2]}")
+        # else:
+        #     vacancy_dic['З/П'] = (f"от {int(vacancy_salary_tag[0])} до {int(vacancy_salary_tag[2])} {vacancy_salary_tag[3]}")
         main_list.append(vacancy_dic)
-    pprint(main_list)
+
+    # pprint(main_list)
 
 # vacancy_name = input('Введите название вакансии, которую необходимо найти:_') для поиска заданной пользователем вакансии
 # params_hh['text'] = vacancy_name
@@ -60,9 +90,12 @@ def full_parse_hh(*args, **kwargs):
             get_parse_hh(*args, **kwargs)
 
 
-# get_parse_hh(params_hh, headers, url_hh) - для тестового парсинга первой страницы
-# get_last_page_hh(params_hh, headers, url_hh) #- для печати количества найденных страниц с вакансией
-full_parse_hh(params_hh, headers, url_hh)
+# full_parse_hh(params_hh, headers, url_hh)
+
+
+for doc in vacancy010821.find({'З/П': {'$gt': 60000}}):
+
+    pprint(doc)
 
 
 

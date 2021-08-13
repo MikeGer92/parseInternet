@@ -33,7 +33,7 @@ driver.get(edit_profile.get_attribute('href'))
 
 gender = driver.find_element_by_name('user[gender]')
 select = Select(gender)
-select.select_by_value('female')
+select.select_by_value('male')
 
 gender.submit()
 

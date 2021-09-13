@@ -30,5 +30,5 @@ for item in items:
     news_mail100821.insert_one(news_one)
     print(news_one)
 
-
+#для запуска МОНГО вводим: .\mongod.exe --dbpath C:/bases
 

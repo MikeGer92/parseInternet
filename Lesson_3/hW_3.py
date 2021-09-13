@@ -99,4 +99,4 @@ for doc in vacancy010821.find({'З/П': {'$gt': 60000}}):
 
 
 
-
+#для запуска МОНГО вводим: .\mongod.exe --dbpath C:/bases

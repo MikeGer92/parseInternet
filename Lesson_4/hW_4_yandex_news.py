@@ -32,3 +32,4 @@ for news_item in news_items:
     news_list.append(news_one)
 pprint(news_list)
 
+#для запуска МОНГО вводим: .\mongod.exe --dbpath C:/bases
